@@ -9,4 +9,5 @@
 #include "Algorithm/algorithmBase.h"
 
 namespace Algorithm {
+    uint64_t version;
 }

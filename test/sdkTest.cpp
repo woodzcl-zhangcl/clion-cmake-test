@@ -101,4 +101,22 @@ TEST_CASE("algorithmBase test", "[SDK]") {
         }
         std::cout << std::endl << std::endl;
     }
+    SECTION("BinaryTree") {
+        int root = 5;
+        int a = 1, b = 2, c = 3, d = 4, e = 6, f = 7;
+
+        BinaryTree<int> bTree(root);
+        bTree.insert(a);
+        bTree.insert(b);
+        bTree.insert(c);
+        bTree.insert(d);
+        bTree.insert(e);
+        bTree.insert(f);
+        bTree.preOrder();
+        std::cout << std::endl << std::endl;
+        bTree.remove(5);
+        bTree.preOrder();
+        std::cout << std::endl << std::endl;
+
+    }
 }

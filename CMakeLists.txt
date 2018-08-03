@@ -52,6 +52,13 @@ else(SDK_BUILD_SHARED_LIB)
     set(SDK_LIBRARY_TYPE STATIC)
 endif(SDK_BUILD_SHARED_LIB)
 
+option_with_default(USE_MYSQL "using mysql database" ON)
+if(USE_MYSQL)
+    set(MYSQL_INC_DIR /usr/local/Cellar/mysql/8.0.12/include)
+    set(MYSQL_LIB_DIR /usr/local/Cellar/mysql/8.0.12/lib)
+    link_directories(${MYSQL_LIB_DIR})
+endif(USE_MYSQL)
+
 add_subdirectory(SDK)
 
 include_directories(
@@ -60,6 +67,9 @@ include_directories(
         ${MEM_INC_DIR}
         ${BOOST_INC_DIR}
         ${SDK_INC_DIRS}
+        if(USE_MYSQL)
+            ${MYSQL_INC_DIR}
+        endif(USE_MYSQL)
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
@@ -68,6 +78,12 @@ add_library(
         ${SDK_LIBRARY_TYPE}
         ${SDK_SOURCE_FILES}
 )
+
+if(USE_MYSQL)
+    link_libraries(SDK mysqlclient)
+else(USE_MYSQL)
+    link_libraries(SDK)
+endif(USE_MYSQL)
 
 add_subdirectory(test)
 
