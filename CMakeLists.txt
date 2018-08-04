@@ -45,19 +45,22 @@ include(json.cmake)
 include(mem.cmake)
 include(BoostAndroid.cmake)
 
+option_with_default(USE_MYSQL "using mysql database" ON)
+
+if(USE_MYSQL)
+    add_subdirectory(mysql)
+endif(USE_MYSQL)
+
+if(USE_MYSQL)
+    link_directories(${MYSQL_LIB_DIR})
+endif(USE_MYSQL)
+
 option_with_default(SDK_BUILD_SHARED_LIB "Build shared SDK libs" OFF)
 if(SDK_BUILD_SHARED_LIB)
     set(SDK_LIBRARY_TYPE SHARED)
 else(SDK_BUILD_SHARED_LIB)
     set(SDK_LIBRARY_TYPE STATIC)
 endif(SDK_BUILD_SHARED_LIB)
-
-option_with_default(USE_MYSQL "using mysql database" ON)
-if(USE_MYSQL)
-    set(MYSQL_INC_DIR /usr/local/Cellar/mysql/8.0.12/include)
-    set(MYSQL_LIB_DIR /usr/local/Cellar/mysql/8.0.12/lib)
-    link_directories(${MYSQL_LIB_DIR})
-endif(USE_MYSQL)
 
 add_subdirectory(SDK)
 
