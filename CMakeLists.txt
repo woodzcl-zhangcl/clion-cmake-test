@@ -90,5 +90,5 @@ endif(USE_MYSQL)
 
 add_subdirectory(test)
 
-add_executable(clion_test main.cpp)
-target_link_libraries(clion_test ${Boost_LIBRARIES})
+add_executable(main_test main.c)
+target_link_libraries(main_test ${Boost_LIBRARIES})
