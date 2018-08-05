@@ -46,7 +46,7 @@ void updateEvents(int efd, int fd, int events, bool modify) {
     }
     if (events & kWriteEvent && !modify) {
         EV_SET(&ev[n++], fd, EVFILT_WRITE, EV_ADD | EV_ENABLE, 0, 0, (void *) (intptr_t) fd);
-    } else if (events & kWriteEvent && !modify) {
+    } else if (events & kWriteEvent && modify) {
         EV_SET(&ev[n++], fd, EVFILT_WRITE, EV_DELETE, 0, 0, (void *) (intptr_t) fd);
     }
     int r = kevent(efd, ev, n, nullptr, 0, nullptr);
@@ -123,7 +123,7 @@ TEST_CASE("test", "[MAC Server]") {
                     close(sockfd);
                 }
                 line[n] = '\0';
-                std::cout << "read " << line << std::endl;
+                std::cout << line << std::endl;
                 updateEvents(epfd, sockfd, kReadEvent, true); //注销读取事件监听
                 updateEvents(epfd, sockfd, kWriteEvent, false); //修改sockfd上要处理的事件为EPOLLOUT
             } else if (events == EVFILT_WRITE) {
