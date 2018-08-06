@@ -1,4 +1,4 @@
-// Copyright (c) 2012-2018 The Elastos Open Source Project
+// Copyright (c) 2012-2018 The woodzcl Open Source Project
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -236,16 +236,20 @@ static void jobqueue_clear(jobqueue *jobqueue_p) {
         free(jobqueue_pull(jobqueue_p));
     }
 
+    pthread_mutex_lock(&jobqueue_p->rwmutex);
     jobqueue_p->front = nullptr;
     jobqueue_p->rear = nullptr;
     bsem_reset(jobqueue_p->has_jobs);
     jobqueue_p->len = 0;
-
+    pthread_mutex_unlock(&jobqueue_p->rwmutex);
 }
 
 /* is empty */
 static bool jobqueue_is_empty(jobqueue *jobqueue_p) {
-    return jobqueue_p->len == 0;
+    pthread_mutex_lock(&jobqueue_p->rwmutex);
+    bool bempty = jobqueue_p->len == 0;
+    pthread_mutex_unlock(&jobqueue_p->rwmutex);
+    return bempty;
 }
 
 /* Free all queue resources back to the system */
