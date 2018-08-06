@@ -120,7 +120,6 @@ TEST_CASE("algorithmBase test", "[SDK]") {
         bTree.remove(5);
         bTree.preOrder();
         std::cout << std::endl << std::endl;
-
     }
 }
 
@@ -133,8 +132,8 @@ void task2(void*) {
 }
 
 TEST_CASE("thread pool", "[SDK]") {
-    puts("Making threadpool with 4 threads");
-    threadpool thpool = thpool_init(4);
+    puts("Making threadpool with 6 threads");
+    threadpool thpool = thpool_init(6);
 
     puts("Adding 40 tasks to threadpool");
     int i;

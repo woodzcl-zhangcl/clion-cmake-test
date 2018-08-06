@@ -86,11 +86,13 @@ static void thread_destroy(struct thread *thread_p);
 
 static int jobqueue_init(jobqueue *jobqueue_p);
 
-static void jobqueue_clear(jobqueue *jobqueue_p);
-
 static void jobqueue_push(jobqueue *jobqueue_p, struct job *newjob_p);
 
 static struct job *jobqueue_pull(jobqueue *jobqueue_p);
+
+static void jobqueue_clear(jobqueue *jobqueue_p);
+
+static bool jobqueue_is_empty(jobqueue *jobqueue_p);
 
 static void jobqueue_destroy(jobqueue *jobqueue_p);
 
@@ -167,20 +169,6 @@ static int jobqueue_init(jobqueue *jobqueue_p) {
     return 0;
 }
 
-/* Clear the queue */
-static void jobqueue_clear(jobqueue *jobqueue_p) {
-
-    while (jobqueue_p->len) {
-        free(jobqueue_pull(jobqueue_p));
-    }
-
-    jobqueue_p->front = nullptr;
-    jobqueue_p->rear = nullptr;
-    bsem_reset(jobqueue_p->has_jobs);
-    jobqueue_p->len = 0;
-
-}
-
 /* Add (allocated) job to queue
  */
 static void jobqueue_push(jobqueue *jobqueue_p, struct job *newjob) {
@@ -233,11 +221,31 @@ static struct job *jobqueue_pull(jobqueue *jobqueue_p) {
             jobqueue_p->front = job_p->prev;
             jobqueue_p->len--;
             /* more than one job in queue -> post it */
+            /* very important for finishing jobqueue to do*/
             bsem_post(jobqueue_p->has_jobs);
     }
 
     pthread_mutex_unlock(&jobqueue_p->rwmutex);
     return job_p;
+}
+
+/* Clear the queue */
+static void jobqueue_clear(jobqueue *jobqueue_p) {
+
+    while (jobqueue_p->len) {
+        free(jobqueue_pull(jobqueue_p));
+    }
+
+    jobqueue_p->front = nullptr;
+    jobqueue_p->rear = nullptr;
+    bsem_reset(jobqueue_p->has_jobs);
+    jobqueue_p->len = 0;
+
+}
+
+/* is empty */
+static bool jobqueue_is_empty(jobqueue *jobqueue_p) {
+    return jobqueue_p->len == 0;
 }
 
 /* Free all queue resources back to the system */
@@ -348,6 +356,9 @@ static void *thread_do(struct thread *thread_p) {
             }
             pthread_mutex_unlock(&thpool_p->thcount_lock);
 
+            if (!jobqueue_is_empty(&thpool_p->jobqueue)) {
+                bsem_post((&thpool_p->jobqueue)->has_jobs);
+            }
         }
     }
     pthread_mutex_lock(&thpool_p->thcount_lock);
