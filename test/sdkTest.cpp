@@ -6,11 +6,15 @@
 // Created by woodzcl on 2018/8/2.
 //
 
+#include <pthread.h>
+
 #define CATCH_CONFIG_MAIN
+
 #include "catch.hpp"
 
 #include "Introduce.h"
 #include "Algorithm/algorithmBase.h"
+#include "ThreadPool/thpool.h"
 
 TEST_CASE("magic number", "[SDK]") {
     uint64_t magicNumber = getMagicNumber();
@@ -118,4 +122,27 @@ TEST_CASE("algorithmBase test", "[SDK]") {
         std::cout << std::endl << std::endl;
 
     }
+}
+
+void task1(void*) {
+    printf("Thread #%ld working on task1\n", (long) pthread_self());
+}
+
+void task2(void*) {
+    printf("Thread #%ld working on task2\n", (long) pthread_self());
+}
+
+TEST_CASE("thread pool", "[SDK]") {
+    puts("Making threadpool with 4 threads");
+    threadpool thpool = thpool_init(4);
+
+    puts("Adding 40 tasks to threadpool");
+    int i;
+    for (i=0; i<20; i++){
+        thpool_add_work(thpool, task1, nullptr);
+        thpool_add_work(thpool, task2, nullptr);
+    };
+
+    puts("Killing threadpool");
+    thpool_destroy(thpool);
 }
