@@ -44,6 +44,7 @@ include(catch2.cmake)
 include(json.cmake)
 include(mem.cmake)
 include(BoostAndroid.cmake)
+include(sqlite.cmake)
 
 option_with_default(USE_MYSQL "using mysql database" ON)
 
