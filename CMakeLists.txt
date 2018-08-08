@@ -45,9 +45,9 @@ include(json.cmake)
 include(mem.cmake)
 include(BoostAndroid.cmake)
 include(sqlite.cmake)
+include(opencv.cmake)
 
 option_with_default(USE_MYSQL "using mysql database" ON)
-
 if(USE_MYSQL)
     add_subdirectory(mysql)
 endif(USE_MYSQL)
