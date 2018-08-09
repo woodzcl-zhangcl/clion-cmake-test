@@ -16,7 +16,8 @@
 #define TEST_BASE 0
 #define TEST_RECOGNITION 0
 #define TEST_CVUI1 0
-#define TEST_CVUI2 1
+#define TEST_CVUI2 0
+#define TEST_CVUI3 1
 
 
 TEST_CASE("opencv base", "[OpenCV]") {
@@ -49,3 +50,10 @@ TEST_CASE("cvui canny", "[CVUI]") {
         ShowCanny();
     }
 }
+
+TEST_CASE("face recognition", "[OpenCV]") {
+    if (1 == TEST_CVUI3) {
+        recognition();
+    }
+}
+
