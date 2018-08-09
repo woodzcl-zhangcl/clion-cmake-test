@@ -6,13 +6,13 @@
 // Created by woodzcl on 2018/8/2.
 //
 
-#ifndef SDK_ALGORITHMBASE_H
-#define SDK_ALGORITHMBASE_H
-
 #include<iostream>
 #include<cassert>
 
 #include "CMemBlock.h"
+
+#ifndef SDK_ALGORITHMBASE_H
+#define SDK_ALGORITHMBASE_H
 
 namespace Algorithm {
     // list
