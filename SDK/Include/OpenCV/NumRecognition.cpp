@@ -61,10 +61,10 @@ void TransferPic(std::string file) {
 }
 
 //加载图片
-bool loadImage(cv::Mat &src, cv::Mat &gray, std::string &filename) {
+bool loadImage(cv::Mat &src, cv::Mat &gray, cv::String &filename) {
     cv::Mat cbgray; //合成后图像
     int chans;    //bgR分量
-    src = cv::imread(filename.c_str(), true);
+    src = cv::imread(filename, true);
     if (src.empty()) return false;
     chans = src.channels();
     std::vector<cv::Mat> bgR(chans);
@@ -96,11 +96,11 @@ bool binImage(cv::Mat &src, cv::Mat &dst, int _size, int lparam, int mediansize)
 */
 int loadProperty(std::vector<dataBase> &db, int index[], int _size, int lparam, int mediansize) {
     //固定路径
-    char filename[30];
-    for (int i = 0; i < 20; ++i) {
-        sprintf(filename, "/usr/woodzcl/tzk/%d.png", index[i]);
+    char filename[256];
+    for (int i = 0; i < 1; ++i) {
+        sprintf(filename, "/Users/woodzcl/Documents/图片/OpenCV_Test_Pic/%d.png", index[i]);
         cv::Mat tmp;
-        std::string path = filename;
+        cv::String path = filename;
         loadImage(tmp, tmp, path); //装载并灰度化
         binImage(tmp, tmp, _size, lparam, mediansize); //二值化
         db.push_back(dataBase(index[i] % 10, tmp));
@@ -181,29 +181,29 @@ std::vector<int> ScanImage(cv::Mat &src, std::vector<dataBase> db, int window_wi
 
 void recognition() {
     cv::Mat check;
+
+    //装载特征库
     std::vector<dataBase> dblist;
     int dex[20];//{0,1,2,3,4,5,6,7,8,9}; //建立一个索引
     for (int i = 0; i < 20; dex[i] = i, i++);
     loadProperty(dblist, dex, 7, 33, 3);
 
-    for (int i = 0; i < 9; i++) {
-        char path[30];
+    //待匹配目标源
+    char path[256];
+    sprintf(path, "/Users/woodzcl/Documents/图片/OpenCV_Test_Pic/src.png");
 
-        if (i < 9)
-            sprintf(path, "/usr/yzm/%d.jpg", i + 1);
-        else
-            sprintf(path, "/usr/yzm/%d.png", i - 8);
+    //装载目标源
+    cv::String s_path(path);
+    loadImage(check, check, s_path);
+    imshow("check", check);
+    cvWaitKey(0);
 
-        std::string s_path(path);
-        loadImage(check, check, s_path);
-        imshow("check", check);
-        cvWaitKey(0);
+    //二值化目标源
+    binImage(check, check, 17, 50, 3);
 
-        binImage(check, check, 17, 50, 3);
+    //获得匹配结果
+    std::vector<int> vec_result = ScanImage(check, dblist, 11, 3);
 
-        ScanImage(check, dblist, 11, 3);
-        imshow("final", check);
-        cvWaitKey(0);
-    }
+    imshow("final", check);
     cvWaitKey(0);
 }

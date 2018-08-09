@@ -14,10 +14,10 @@
 
 TEST_CASE("opencv base", "[OpenCV]") {
     SECTION("show picture") {
-        ShowPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+//        ShowPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
     }
     SECTION("transfer") {
-        TransferPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+//        TransferPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
     }
 }
 

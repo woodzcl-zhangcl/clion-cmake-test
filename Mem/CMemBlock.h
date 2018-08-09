@@ -62,7 +62,7 @@
  *	}
  *
  *	Demo 5:
- *	void funcAdd(const CMemBlock<int> &in_cmBlock, CMemBlock<int> &out_cmBlock) {
+ *	void funcAdd(const CMemBlock<int> in_cmBlock, CMemBlock<int> &out_cmBlock) {
  *		CMemBlock<int>::size_type count = in_cmBlock.GetSize(), i;
  *		out_cmBlock.Resize(count);
  *		int i_add = 10;

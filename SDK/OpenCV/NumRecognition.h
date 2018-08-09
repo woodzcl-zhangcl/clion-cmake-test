@@ -37,7 +37,7 @@ struct DataBase {
 typedef struct DataBase dataBase;
 
 //加载图片
-bool loadImage(cv::Mat &src, cv::Mat &gray, std::string &filename);
+bool loadImage(cv::Mat &src, cv::Mat &gray, cv::String &filename);
 
 //二值化
 bool binImage(cv::Mat &src, cv::Mat &dst, int _size, int lparam, int mediansize);
