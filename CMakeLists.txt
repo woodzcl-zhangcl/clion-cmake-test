@@ -74,6 +74,7 @@ include_directories(
         if(USE_MYSQL)
             ${MYSQL_INC_DIR}
         endif(USE_MYSQL)
+        ${CMAKE_CURRENT_SOURCE_DIR}/cvui
         ${CMAKE_CURRENT_SOURCE_DIR}
 )
 

@@ -11,16 +11,41 @@
 #include "catch.hpp"
 
 #include "OpenCV/NumRecognition.h"
+#include "OpenCV/ui_cvui.h"
+
+#define TEST_BASE 0
+#define TEST_RECOGNITION 0
+#define TEST_CVUI1 0
+#define TEST_CVUI2 1
+
 
 TEST_CASE("opencv base", "[OpenCV]") {
     SECTION("show picture") {
-//        ShowPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+        if (1 == TEST_BASE) {
+            ShowPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+        }
     }
     SECTION("transfer") {
-//        TransferPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+        if (1 == TEST_BASE) {
+            TransferPic("/Users/woodzcl/Documents/图片/泰国巴逸上将.png");
+        }
     }
 }
 
 TEST_CASE("number recognition", "[OpenCV]") {
-    recognition();
+    if (1 == TEST_RECOGNITION) {
+        recognition();
+    }
+}
+
+TEST_CASE("cvui layer", "[CVUI]") {
+    if (1 == TEST_CVUI1) {
+        ShowUI();
+    }
+}
+
+TEST_CASE("cvui canny", "[CVUI]") {
+    if (1 == TEST_CVUI2) {
+        ShowCanny();
+    }
 }
