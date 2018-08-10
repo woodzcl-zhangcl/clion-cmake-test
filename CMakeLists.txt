@@ -85,9 +85,9 @@ add_library(
 )
 
 if(USE_MYSQL)
-    link_libraries(SDK mysqlclient)
+    link_libraries(SDK protobuf mysqlclient)
 else(USE_MYSQL)
-    link_libraries(SDK)
+    link_libraries(SDK protobuf)
 endif(USE_MYSQL)
 
 add_subdirectory(test)

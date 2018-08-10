@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SDK_SOURCE_FILES "*.cpp" "*.c")
+file(GLOB_RECURSE SDK_SOURCE_FILES "*.cpp" "*.c" "*.cc")
 
 set(
         SDK_SOURCE_FILES
