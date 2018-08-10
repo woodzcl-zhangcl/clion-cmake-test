@@ -1,2 +1,2 @@
 find_package(OpenCV)
-include_directories( ${OpenCV_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS})
