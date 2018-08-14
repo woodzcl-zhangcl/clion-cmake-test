@@ -13,12 +13,9 @@
 #include <iostream>
 #include <unistd.h>
 
-#include "api/test/fakeconstraints.h"
 
-using namespace webrtc;
 
 TEST_CASE("webrtc", "[WebRTC]") {
-    FakeConstraints fc;
 
 }
 

@@ -84,25 +84,32 @@ add_library(
         ${SDK_LIBRARY_TYPE}
         ${SDK_SOURCE_FILES}
 )
-option_with_default(USE_WEBRTC "use webrtc libs" OFF)
-if(USE_WEBRTC)
-    include_directories(/Users/woodzcl/WebRTC/include)
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-        link_directories(/Users/woodzcl/WebRTC/lib/x64/Debug)
-    else()
-        link_directories(/Users/woodzcl/WebRTC/lib/x64/Release)
-    endif()
-endif(USE_WEBRTC)
+
+option_with_default(USE_WEBRTC_COMMON "use webrtc libs" OFF)
+if(USE_WEBRTC_COMMON)
+    add_subdirectory(WebRTC)
+    include_directories(${WEBRTC_COMMON_INC_DIRS})
+    add_library(
+            WebRTCCommon
+            STATIC
+            ${WEBRTC_COMMON_SOURCE_FILES}
+    )
+endif(USE_WEBRTC_COMMON)
+
+option_with_default(USE_FFmpeg "use ffmpeg libs" ON)
+if(USE_FFmpeg)
+    link_libraries(avdevice avfilter avformat avcodec swresample swscale avutil)
+endif(USE_FFmpeg)
 
 if(USE_MYSQL)
     if (USE_WEBRTC)
-        link_libraries(SDK protobuf mysqlclient webrtc_full)
+        link_libraries(SDK protobuf mysqlclient WebRTCCommon)
     else(USE_WEBRTC)
         link_libraries(SDK protobuf mysqlclient)
     endif (USE_WEBRTC)
 else(USE_MYSQL)
     if (USE_MYSQL)
-        link_libraries(SDK protobuf webrtc_full)
+        link_libraries(SDK protobuf WebRTCCommon)
     else(USE_MYSQL)
         link_libraries(SDK protobuf)
     endif (USE_MYSQL)
