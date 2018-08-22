@@ -1,7 +1,7 @@
 aux_source_directory(${CMAKE_CURRENT_SOURCE_DIR} TEST_SOURCE_FILES)
 
 foreach(srcFile ${TEST_SOURCE_FILES})
-    string(REGEX REPLACE ".*/\(.*\).cpp$" "\\1" TEST_TARGET_NAME ${srcFile})
+    string(REGEX REPLACE ".*/\(.*\).(cpp|c)$" "\\1" TEST_TARGET_NAME ${srcFile})
     if(NOT "${TEST_TARGET_NAME}" STREQUAL "mac_server_test" AND NOT "${TEST_TARGET_NAME}" STREQUAL "linux_server_test")
         if(NOT "${TEST_TARGET_NAME}" STREQUAL "sqliteTest")
             if(NOT "${TEST_TARGET_NAME}" STREQUAL "opencvTest")
